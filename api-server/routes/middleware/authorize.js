@@ -1,26 +1,42 @@
 let table_policies =  { // TODO: Tạo từ CSDL
     "/room": {
-           "admin": {
-               "GET": true,
-           "POST": true,
+        "admin": {
+            "GET": true,
+            "POST": true,
        },
-       "manager": {
-               "GET": true,
-           "POST": false,
+        "manager": {
+            "GET": true,
+            "POST": false,
        }
    },
    "/room/:id": {
-       "admin": {
+        "admin": {
            "GET": true,
            "DELETE": true,
            "PATCH": true,
        },
-       "manager": {
+        "manager": {
            "GET": true,
            "DELETE": false,
            "PATCH": false,
        }
-   }
+   },
+   "/manager": {
+        "admin": {
+            "GET": true,
+        },
+        "manager": {
+            "GET": true,
+        },
+    },
+    "/manager/:username": {
+        "admin": {
+            "PATCH": true,
+        },
+        "manager": {
+            "PATCH": true
+        },
+    }
 };
 
 module.exports.authorized = function(req, res, next) {

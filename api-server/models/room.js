@@ -43,8 +43,7 @@ const updateById = async (id, req) => {
         .where('room_id', '=', id)
         .update(info);
 
-    console.log(2)  
-    const success = rowCount > 0;
+        const success = rowCount > 0;
 
     if (success) {
         return {

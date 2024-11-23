@@ -23,10 +23,12 @@ server.use(restify.plugins.queryParser()); // GET query
 const root = require('./routes/root');
 const login = require('./routes/login');
 const room = require('./routes/room');
+const manager = require('./routes/manager');
 
 root.applyRoutes(server);
 login.applyRoutes(server);
 room.applyRoutes(server);
+manager.applyRoutes(server);
 
 var PORT = 8080;
 server.listen(PORT, function() {

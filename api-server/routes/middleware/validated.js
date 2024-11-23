@@ -18,6 +18,13 @@ let rules = {
             name: "required|string",
             price: "required|integer|min:0"
         }
+    },
+    "/manager/:username": {
+        "PATCH": {
+		    username: "string",
+            fullname: "string",
+            base_salary: "integer|min:0"
+        }
     }
 };
 
