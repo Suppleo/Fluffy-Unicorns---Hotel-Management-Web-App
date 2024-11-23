@@ -1,0 +1,185 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: "Fluffy Unicorns"
+  description: |
+    **Team Members:**
+    
+    Nguyễn Ngọc Thạch - 2201700077
+    
+    Hoàng Anh - 2201700173
+    
+    Lê Đức Long - 2201700192
+
+host: https://nightmarish-wand-5gq9qjp4qgrjfq4r-8080.app.github.dev/
+basePath: /
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /login:
+    post:
+      summary: Đăng nhập
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/LoginRequest'
+      responses:
+        '200':
+          description: Đăng nhập thành công
+          schema:
+            $ref: '#/definitions/LoginResponse'
+        '400':
+          description: Lỗi đầu vào
+        '401':
+          description: Sai thông tin đăng nhập
+  /customer:
+    get:
+      summary: Lấy danh sách khách hàng
+      responses:
+        '200':
+          description: Danh sách khách hàng
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Customer'
+          examples:
+            application/json:
+              - username: admin
+                fullname: Administrator
+                email: admin@example.com
+                tel: '0123456789'
+              - username: customer
+                fullname: John Doe
+                email: john@example.com
+                tel: '0987654321'
+    post:
+      summary: Tạo mới khách hàng
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/NewCustomerRequest'
+      responses:
+        '201':
+          description: Khách hàng đã được tạo mới
+          schema:
+            $ref: '#/definitions/Customer'
+  /customer/{username}:
+    get:
+      summary: Lấy thông tin khách hàng
+      parameters:
+        - name: username
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Thông tin khách hàng
+          schema:
+            $ref: '#/definitions/Customer'
+    delete:
+      summary: Xóa khách hàng
+      parameters:
+        - name: username
+          in: path
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Khách hàng đã được xóa
+    patch:
+      summary: Cập nhật thông tin khách hàng
+      parameters:
+        - name: username
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateCustomerRequest'
+      responses:
+        '200':
+          description: Thông tin khách hàng đã được cập nhật
+          schema:
+            $ref: '#/definitions/Customer'
+definitions:
+  LoginRequest:
+    title: Login Request
+    type: object
+    properties:/-strong/-heart:>:o:-((:-h username:
+        type: string
+      password:
+        type: string
+    required:
+      - username
+      - password
+  LoginResponse:
+    title: Login Response
+    type: object
+    properties:
+      success:
+        type: boolean
+      code:
+        type: integer
+      message:
+        type: string
+      data:
+        type: string
+  Customer:
+    title: Customer
+    type: object
+    properties:
+      username:
+        type: string
+      fullname:
+        type: string
+      email:
+        type: string
+      tel:
+        type: string
+    required:
+      - username
+      - fullname
+      - email
+      - tel
+  NewCustomerRequest:
+    title: New Customer Request
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+    required:
+      - username
+      - password
+  UpdateCustomerRequest:
+    title: Update Customer Request
+    type: object
+    properties:
+      fullname:
+        type: string
+      email:
+        type: string
+      tel:
+        type: string
+    required:
+      - fullname
+      - email
+      - tel
+    example:
+      question: Favourite programming language?
+      choices:
+        - Swift
+        - Python
+        - Objective-C
+        - Ruby

@@ -25,6 +25,21 @@ let rules = {
             fullname: "string",
             base_salary: "integer|min:0"
         }
+    },
+    "/customer": {
+        "POST": {
+            username: "required|string|min:3|max:20",
+            password: "required|string|min:3|max:50"
+        }
+    },
+    "/customer/:username": {
+        "PATCH": {
+            fullname: "string",
+            base_salary: "integer|min:0"
+        },
+        "DELETE": {
+            username: "required|string" // `username` phải là chuỗi và không được bỏ trống
+        }
     }
 };
 

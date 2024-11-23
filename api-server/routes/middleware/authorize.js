@@ -36,7 +36,39 @@ let table_policies =  { // TODO: Tạo từ CSDL
         "manager": {
             "PATCH": true
         },
+    },
+    "/customer": {
+        "admin": {
+            "GET": true,
+            "POST": false
+        },
+        "manager": {
+            "GET": true,
+            "POST": false
+        },
+        "customer": {
+            "GET": true,
+            "POST": false
+        },
+    },
+    "/customer/:username": {
+        "admin": {
+            "GET": true,
+            "PATCH": true,
+            "DELETE": true
+        },
+        "manager": {
+            "GET": true,
+            "PATCH": true,
+            "DELETE": true
+        },
+        "customer": {
+            "GET": true,
+            "PATCH": true,
+            "DELETE": false
+        }
     }
+
 };
 
 module.exports.authorized = function(req, res, next) {

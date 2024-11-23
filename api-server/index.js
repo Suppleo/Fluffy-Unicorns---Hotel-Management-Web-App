@@ -24,11 +24,13 @@ const root = require('./routes/root');
 const login = require('./routes/login');
 const room = require('./routes/room');
 const manager = require('./routes/manager');
+const customer = require('./routes/customer');
 
 root.applyRoutes(server);
 login.applyRoutes(server);
 room.applyRoutes(server);
 manager.applyRoutes(server);
+customer.applyRoutes(server);
 
 var PORT = 8080;
 server.listen(PORT, function() {
