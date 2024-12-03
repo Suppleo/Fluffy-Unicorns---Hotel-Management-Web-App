@@ -67,8 +67,60 @@ let table_policies =  { // TODO: Tạo từ CSDL
             "PATCH": true,
             "DELETE": false
         }
-    }
-
+    },
+    "/customer/:username/booking": {
+        "admin": {
+            "GET": true
+        },
+        "manager": {
+            "GET": true
+        },
+        "customer": {
+            "GET": true
+        }
+    },
+    "/booking/:id": {
+        "admin": {
+            "GET": true,
+            "PATCH": true,
+            "DELETE": true
+        },
+        "manager": {
+            "GET": true,
+            "PATCH": true,
+            "DELETE": true
+        },
+        "customer": {
+            "GET": true,
+            "PATCH": true,
+            "DELETE": true
+        }
+    },
+    "/booking": {
+        "admin": {
+            "POST": true
+        },
+        "manager": {
+            "POST": true
+        },
+        "customer": {
+            "POST": true
+        }
+    },
+    "/detail/:id": {
+        "admin": {
+            "PATCH": true,
+            "DELETE": true
+        },
+        "manager": {
+            "PATCH": true,
+            "DELETE": true
+        },
+        "customer": {
+            "PATCH": true,
+            "DELETE": true
+        }
+    },
 };
 
 module.exports.authorized = function(req, res, next) {

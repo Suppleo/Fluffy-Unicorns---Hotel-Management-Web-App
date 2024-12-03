@@ -164,4 +164,44 @@ router.del('/customer/:username', [authenticated, authorized, validated], async 
     }
 });
 
+router.get('/customer/:username/booking', [authenticated, authorized, validated], async (req, res) => {
+    try {
+        const { username } = req.params;
+        const context = req.user;
+
+        // Check if the user is authorized to view these bookings
+        if (context.role === 'customer' && context.username !== username) {
+            return res.send({
+                success: false,
+                code: 403,
+                message: 'You are not authorized to view these bookings'
+            });
+        }
+
+        const result = await Customer.getBookings(context, username);
+
+        if (result.success) {
+            res.send({
+                success: true,
+                code: 200,
+                message: 'Bookings retrieved successfully',
+                data: result.data
+            });
+        } else {
+            res.send({
+                success: false,
+                code: 404,
+                message: result.message
+            });
+        }
+    } catch (error) {
+        console.error('Error fetching customer bookings:', error);
+        res.send({
+            success: false,
+            code: 500,
+            message: 'Internal Server Error'
+        });
+    }
+});
+
 module.exports = router;

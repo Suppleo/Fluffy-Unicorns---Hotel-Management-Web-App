@@ -40,7 +40,49 @@ let rules = {
         "DELETE": {
             username: "required|string" // `username` phải là chuỗi và không được bỏ trống
         }
-    }
+    },
+    "/customer/:username/booking": {
+        "GET": {
+            username: "required|string"
+        }
+    },
+    "/booking/:id": {
+        "GET": {
+            id: "required|integer|min:1",
+        },
+        "PATCH": {
+            id: "required|integer|min:1",
+            checkin_date: "date",
+            checkout_date: "date|after:checkin_date"
+        },
+        "DELETE": {
+            id: "required|integer|min:1"
+        },
+    },
+    "/booking": {
+        "POST": {
+            checkin_date: "required|date",
+            checkout_date: "required|date|after:checkin_date",
+            total_price: "required|numeric|min:0",
+            rooms: "required|array|min:1",
+            "rooms.*.room_id": "required|integer|min:1",
+            "rooms.*.price_per_day": "required|numeric|min:0",
+            "rooms.*.total_price": "required|numeric|min:0"
+        }
+    },
+    "/detail/:id": {
+        "PATCH": {
+            id: "required|integer|min:1",
+            username: "required|string",
+            booking_id: "required|integer|min:1",
+            room_id: "integer|min:1",
+            price_per_day: "numeric|min:0",
+            total_price: "numeric|min:0"
+        },
+        "DELETE": {
+            id: "required|integer|min:1"
+        }
+    },
 };
 
 module.exports.validated = function (req, res, next) {

@@ -88,6 +88,42 @@ const create = async (username, password) => {
     }
 };
 
+const getBookings = async (context, username) => {
+    const knex = getKnex();
+    
+    try {
+        const allowedColumns = columnFilter("booking", context.role, "getBookings");
+        let query = knex('booking').select(allowedColumns).where({ username });
+        query = rowFilter(query, "getBookings", "booking", context);
+
+        const bookings = await query;
+
+        if (!bookings || bookings.length === 0) {
+            return {
+                success: false,
+                message: 'No bookings found for this user'
+            };
+        }
+
+        // Fetch booking details for each booking
+        const bookingsWithDetails = await Promise.all(bookings.map(async (booking) => {
+            const details = await knex('booking_detail')
+                .where({ booking_id: booking.booking_id });
+            return { ...booking, details };
+        }));
+
+        return {
+            success: true,
+            data: bookingsWithDetails
+        };
+    } catch (error) {
+        console.error('Error in getBookings:', error);
+        return {
+            success: false,
+            message: 'Failed to retrieve bookings'
+        };
+    }
+};
 
 
 module.exports = {
@@ -95,5 +131,6 @@ module.exports = {
     getOne,
     update,
     deleteOne,
-    create // Export hàm create
+    create,
+    getBookings
 };

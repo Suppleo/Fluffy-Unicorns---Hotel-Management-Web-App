@@ -1,4 +1,4 @@
-# Midterm: Web
+# Week 08 Homework
 
 ## Team Name: Fluffy Unicorns
 
@@ -8,5 +8,5 @@
 - Hoàng Anh 2201700173
 - Lê Đức Long 2201700192
 
-# Link apiary.io: 
+## Project Github Link: [https://github.com/Suppleo/demoIntroWebUMT](https://github.com/Suppleo/demoIntroWebUMT)
 
