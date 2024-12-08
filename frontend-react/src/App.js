@@ -8,7 +8,7 @@ function Room(props) {
 }
 
 function App() {
-  var api = "https://nightmarish-wand-5gq9qjp4qgrjfq4r-8080.app.github.dev/room";
+  var api = "https://fictional-space-goldfish-5gq9qjp4qrvj3p7j4-8080.app.github.dev/room";
   const { data, error, isLoading } = useSWR(api, fetcher);
 
   if (error) return <div>failed to load</div>
