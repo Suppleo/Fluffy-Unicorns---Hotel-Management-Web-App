@@ -3,43 +3,43 @@ exports.seed = async function (knex) {
   await knex("Service").insert([
     {
       ServiceID: 1,
-      ServiceName: "Housekeeping",
-      ServiceType: "Room Service",
-      Unit: "Day",
-      UnitPrice: 20.0,
-      Description: "Daily cleaning and tidying of rooms."
+      ServiceName: "Laundry",
+      ServiceType: "Laundry",
+      Unit: "Load",
+      UnitPrice: 25.0,
+      Description: "Professional laundry and dry cleaning service"
     },
     {
       ServiceID: 2,
-      ServiceName: "Laundry Services",
-      ServiceType: "Laundry",
-      Unit: "Service",
-      UnitPrice: 15.0,
-      Description: "Dry cleaning and laundry facilities for guests."
+      ServiceName: "In-room dining",
+      ServiceType: "Food Service",
+      Unit: "Order",
+      UnitPrice: 35.0,
+      Description: "24/7 room service dining"
     },
     {
       ServiceID: 3,
-      ServiceName: "Airport Shuttle",
-      ServiceType: "Transportation",
-      Unit: "Ride",
-      UnitPrice: 25.0,
-      Description: "Transportation to and from the airport."
+      ServiceName: "Spa treatments",
+      ServiceType: "Wellness",
+      Unit: "Session",
+      UnitPrice: 80.0,
+      Description: "Massage and spa therapy services"
     },
     {
       ServiceID: 4,
-      ServiceName: "Wake-up Call",
-      ServiceType: "Guest Service",
-      Unit: "Call",
-      UnitPrice: 5.0,
-      Description: "A service to ensure guests are awake at their desired time."
+      ServiceName: "Airport shuttle",
+      ServiceType: "Transportation",
+      Unit: "Trip",
+      UnitPrice: 30.0,
+      Description: "Round-trip airport transfer service"
     },
     {
       ServiceID: 5,
-      ServiceName: "Pet-Friendly Services",
-      ServiceType: "Guest Service",
-      Unit: "Stay",
-      UnitPrice: 30.0,
-      Description: "Accommodations for guests traveling with pets."
+      ServiceName: "Bike Rentals",
+      ServiceType: "Recreation",
+      Unit: "Day",
+      UnitPrice: 15.0,
+      Description: "City bikes available for guest use"
     }
   ]);
 };
