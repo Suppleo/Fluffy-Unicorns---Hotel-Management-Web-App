@@ -2,9 +2,9 @@ exports.up = function (knex) {
   return knex.schema.raw(`
     CREATE TABLE "BookingDetail" (
       "BookingDetailID" SERIAL PRIMARY KEY,
-      "BookingID" INTEGER NOT NULL REFERENCES "Booking"("BookingID"),
-      "RoomID" INTEGER NOT NULL REFERENCES "Room"("RoomID"),
-      "GuestID" INTEGER NOT NULL REFERENCES "Guest"("GuestID")
+      "BookingID" INTEGER REFERENCES "Booking"("BookingID"),
+      "RoomID" INTEGER REFERENCES "Room"("RoomID"),
+      "GuestID" INTEGER REFERENCES "Guest"("GuestID")
     );
   `);
 };

@@ -21,18 +21,18 @@ server.use(restify.plugins.bodyParser({ mapParams: true })); // POST params
 server.use(restify.plugins.queryParser()); // GET query
 
 const root = require('./routes/root');
-const login = require('./routes/login');
 const room = require('./routes/room');
 const manager = require('./routes/manager');
 const customer = require('./routes/customer');
 const booking = require('./routes/booking');
+const account = require('./routes/account');
 
 root.applyRoutes(server);
-login.applyRoutes(server);
 room.applyRoutes(server);
 manager.applyRoutes(server);
 customer.applyRoutes(server);
 booking.applyRoutes(server);
+account.applyRoutes(server);
 
 var PORT = 8080;
 server.listen(PORT, function() {

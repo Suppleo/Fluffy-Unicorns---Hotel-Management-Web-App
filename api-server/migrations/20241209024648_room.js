@@ -2,9 +2,9 @@ exports.up = function (knex) {
   return knex.schema.raw(`
     CREATE TABLE "Room" (
       "RoomID" SERIAL PRIMARY KEY,
-      "RoomTypeID" INTEGER NOT NULL REFERENCES "RoomType"("RoomTypeID"),
-      "RoomNumber" VARCHAR(10) NOT NULL UNIQUE,
-      "Status" VARCHAR(15) NOT NULL CHECK ("Status" IN ('Available', 'Booked', 'Maintenance'))
+      "RoomTypeID" INTEGER REFERENCES "RoomType"("RoomTypeID"),
+      "RoomNumber" VARCHAR(10) UNIQUE,
+      "Status" VARCHAR(15) CHECK ("Status" IN ('Available', 'Booked', 'Maintenance'))
     );
   `);
 };

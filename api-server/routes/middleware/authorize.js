@@ -40,15 +40,15 @@ let table_policies =  { // TODO: Tạo từ CSDL
     "/customer": {
         "admin": {
             "GET": true,
-            "POST": false
+            "POST": true
         },
         "manager": {
             "GET": true,
-            "POST": false
+            "POST": true
         },
         "customer": {
             "GET": true,
-            "POST": false
+            "POST": true
         },
     },
     "/customer/:username": {

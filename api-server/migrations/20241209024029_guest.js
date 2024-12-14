@@ -3,14 +3,12 @@ exports.up = function (knex) {
     CREATE TABLE "Guest" (
       "GuestID" SERIAL PRIMARY KEY,
       "CustomerID" INTEGER REFERENCES "Customer"("CustomerID"),
-      "FirstName" VARCHAR(50) NOT NULL,
+      "FirstName" VARCHAR(50),
       "MiddleName" VARCHAR(50),
-      "LastName" VARCHAR(50) NOT NULL,
-      "DateOfBirth" DATE NOT NULL CHECK ("DateOfBirth" <= CURRENT_DATE),
-      "IDNumber" CHAR(15) NOT NULL UNIQUE,
-      "GuardianIDNumber" CHAR(15) CHECK (
-        "DateOfBirth" <= CURRENT_DATE - INTERVAL '18 years' OR "GuardianIDNumber" IS NOT NULL
-      )
+      "LastName" VARCHAR(50),
+      "DateOfBirth" DATE CHECK ("DateOfBirth" <= CURRENT_DATE),
+      "IDNumber" CHAR(15) UNIQUE,
+      "GuardianIDNumber" CHAR(15)
     );
   `);
 };

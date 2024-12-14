@@ -26,7 +26,7 @@ let policies = {
         },
         "customer": {
             "getAll": (knex, user) => 
-                knex.where({ username: user.username }),
+                knex.where('Account.Username', user.username),
             "getOne": (knex, user) => 
                 knex.where({ username: user.username }),
             "update": (knex, context) =>

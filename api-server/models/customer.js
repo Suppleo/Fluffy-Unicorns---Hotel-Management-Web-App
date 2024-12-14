@@ -7,16 +7,35 @@ const _ = require('lodash');
 const table = 'customers';
 const columns = ['username', 'fullname', 'email', 'tel'];
 
-// Hàm lấy danh sách khách hàng
 const getAll = async (req) => {
-    // Bắt đầu truy vấn với các cột được phép
-    let knex = getKnex()(table).select(columns);
-    // Áp dụng bộ lọc hàng dựa trên quyền
-    knex = rowFilter(knex, "getAll", table, req.user);
-    // Thực thi truy vấn và trả về kết quả
-    const result = await knex;
+    let knex = getKnex();
+    
+    // Join Customer and Account tables to get full information
+    let query = knex('Customer')
+        .join('Account', 'Customer.AccountID', '=', 'Account.AccountID')
+        .select(
+            'Customer.CustomerID',
+            'Customer.RewardPoints',
+            'Account.FirstName',
+            'Account.MiddleName',
+            'Account.LastName',
+            'Account.Username',
+            'Account.Status',
+            'Account.DateOfBirth',
+            'Account.Gender',
+            'Account.Email',
+            'Account.Phone',
+            'Account.Address',
+            'Account.IDNumber'
+        );
+
+    // Apply row-level security based on user role
+    query = rowFilter(query, "getAll", "customers", req.user);
+
+    const result = await query;
     return result;
 };
+
 
 // Hàm lấy thông tin một khách hàng
 const getOne = async (context, username) => {
@@ -64,7 +83,7 @@ const create = async (username, password) => {
     const knex = getKnex();
 
     try {
-        // Gọi hàm create_account
+        // First create the account
         const result = await knex.raw(
             `select * from public.create_account(?, ?, ?)`,
             [username, password, 'customer']
@@ -73,21 +92,18 @@ const create = async (username, password) => {
         const { success, message, data } = result.rows[0];
 
         if (success) {
-            // Thêm thông tin cơ bản vào bảng `customer`
-            await knex('customers').insert({
-                username: username,
-                fullname: '',
-                email: '',
-                tel: '',
+            // Create customer record with initial reward points
+            await knex('Customer').insert({
+                AccountID: data.account_id,
+                RewardPoints: 0
             });
         }
 
         return { success, message, data };
     } catch (error) {
-        throw new Error('Error calling create_account function: ' + error.message);
+        throw new Error('Error creating customer account: ' + error.message);
     }
 };
-
 const getBookings = async (context, username) => {
     const knex = getKnex();
     

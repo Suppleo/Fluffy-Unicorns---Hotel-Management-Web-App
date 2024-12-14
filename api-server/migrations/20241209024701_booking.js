@@ -2,14 +2,14 @@ exports.up = function (knex) {
   return knex.schema.raw(`
     CREATE TABLE "Booking" (
       "BookingID" SERIAL PRIMARY KEY,
-      "CustomerID" INTEGER NOT NULL REFERENCES "Customer"("CustomerID"),
-      "EmployeeID" INTEGER NOT NULL REFERENCES "Employee"("EmployeeID"),
-      "BookingDate" DATE NOT NULL,
-      "CheckInDate" DATE NOT NULL CHECK ("CheckInDate" <= "CheckOutDate"),
-      "CheckOutDate" DATE NOT NULL,
+      "CustomerID" INTEGER REFERENCES "Customer"("CustomerID"),
+      "EmployeeID" INTEGER REFERENCES "Employee"("EmployeeID"),
+      "BookingDate" DATE,
+      "CheckInDate" DATE CHECK ("CheckInDate" <= "CheckOutDate"),
+      "CheckOutDate" DATE,
       "TotalAmount" NUMERIC(10, 2) DEFAULT 0 CHECK ("TotalAmount" >= 0),
-      "Status" VARCHAR(15) NOT NULL CHECK ("Status" IN ('Confirmed', 'Cancelled', 'Completed')),
-      "PaymentStatus" VARCHAR(10) NOT NULL CHECK ("PaymentStatus" IN ('Paid', 'Unpaid'))
+      "Status" VARCHAR(15) CHECK ("Status" IN ('Confirmed', 'Cancelled', 'Completed')),
+      "PaymentStatus" VARCHAR(10) CHECK ("PaymentStatus" IN ('Paid', 'Unpaid'))
     );
   `);
 };

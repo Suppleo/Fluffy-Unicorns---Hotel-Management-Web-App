@@ -2,9 +2,9 @@ exports.up = function (knex) {
   return knex.schema.raw(`
     CREATE TABLE "Shift" (
       "ShiftID" SERIAL PRIMARY KEY,
-      "EmployeeID" INTEGER NOT NULL REFERENCES "Employee"("EmployeeID"),
-      "StartTime" TIMESTAMP NOT NULL,
-      "EndTime" TIMESTAMP NOT NULL CHECK ("StartTime" < "EndTime")
+      "EmployeeID" INTEGER REFERENCES "Employee"("EmployeeID"),
+      "StartTime" TIMESTAMP,
+      "EndTime" TIMESTAMP CHECK ("StartTime" < "EndTime")
     );
   `);
 };

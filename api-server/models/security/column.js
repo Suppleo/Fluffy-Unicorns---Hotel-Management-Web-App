@@ -9,13 +9,16 @@ let policies = {
     },
     "customers": {
         "admin": {
-            "update": ['fullname', 'email', 'tel']
+            "update": ['fullname', 'email', 'tel'],
+            "getAll": ['CustomerID', 'RewardPoints', 'FirstName', 'MiddleName', 'LastName', 'Username', 'Status', 'DateOfBirth', 'Gender', 'Email', 'Phone', 'Address', 'IDNumber']
         },
         "manager": {
-            "update": ['fullname', 'email', 'tel']
+            "update": ['fullname', 'email', 'tel'],
+            "getAll": ['CustomerID', 'RewardPoints', 'FirstName', 'MiddleName', 'LastName', 'Username', 'Status', 'DateOfBirth', 'Gender', 'Email', 'Phone', 'Address', 'IDNumber']
         },
         "customer": {
-            "update": ['fullname', 'email', 'tel'] // Không cho phép sửa username
+            "update": ['fullname', 'email', 'tel'],
+            "getAll": ['CustomerID', 'RewardPoints', 'FirstName', 'MiddleName', 'LastName', 'Username', 'Status', 'DateOfBirth', 'Gender', 'Email', 'Phone', 'Address', 'IDNumber']
         }
     },
     "booking": {
