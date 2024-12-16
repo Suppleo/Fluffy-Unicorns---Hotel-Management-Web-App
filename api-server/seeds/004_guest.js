@@ -3,7 +3,6 @@ exports.seed = async function (knex) {
   await knex("Guest").insert([
     // Guests for Customer 1
     {
-      GuestID: 1,
       CustomerID: 1,
       FirstName: "Hoa",
       MiddleName: "Thị",
@@ -13,19 +12,17 @@ exports.seed = async function (knex) {
       GuardianIDNumber: null
     },
     {
-      GuestID: 2,
       CustomerID: 1,
       FirstName: "An",
       MiddleName: "Văn",
       LastName: "Nguyễn",
       DateOfBirth: "2015-09-01",
-      IDNumber: "ID008",
+      IDNumber: null,
       GuardianIDNumber: "ID005"
     },
 
     // Guests for Customer 2
     {
-      GuestID: 3,
       CustomerID: 2,
       FirstName: "Hùng",
       MiddleName: "Văn",
@@ -35,19 +32,17 @@ exports.seed = async function (knex) {
       GuardianIDNumber: null
     },
     {
-      GuestID: 4,
       CustomerID: 2,
       FirstName: "Huy",
       MiddleName: "Quang",
       LastName: "Đặng",
       DateOfBirth: "2012-03-22",
-      IDNumber: "ID009",
+      IDNumber: null,
       GuardianIDNumber: "ID006"
     },
 
     // Guests for Customer 3
     {
-      GuestID: 5,
       CustomerID: 3,
       FirstName: "Hà",
       MiddleName: "Thanh",
@@ -57,13 +52,12 @@ exports.seed = async function (knex) {
       GuardianIDNumber: null
     },
     {
-      GuestID: 6,
       CustomerID: 3,
       FirstName: "Khang",
       MiddleName: "Quốc",
       LastName: "Lý",
       DateOfBirth: "2010-06-15",
-      IDNumber: "ID010",
+      IDNumber: null,
       GuardianIDNumber: "ID007"
     }
   ]);

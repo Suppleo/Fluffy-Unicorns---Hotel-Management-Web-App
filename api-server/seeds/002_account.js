@@ -2,7 +2,6 @@ exports.seed = async function (knex) {
   await knex("Account").del();
   await knex("Account").insert([
     {
-      AccountID: 1,
       FirstName: "Thạch",
       MiddleName: "Ngọc",
       LastName: "Nguyễn",
@@ -17,7 +16,6 @@ exports.seed = async function (knex) {
       Role: "admin"
     },
     {
-      AccountID: 2,
       FirstName: "Quốc",
       MiddleName: "Lê",
       LastName: "Trần",
@@ -32,7 +30,6 @@ exports.seed = async function (knex) {
       Role: "manager"
     },
     {
-      AccountID: 3,
       FirstName: "Nhung",
       MiddleName: "Thị",
       LastName: "Phạm",
@@ -47,7 +44,6 @@ exports.seed = async function (knex) {
       Role: "employee"
     },
     {
-      AccountID: 4,
       FirstName: "Khải",
       MiddleName: "Quang",
       LastName: "Trần",
@@ -62,7 +58,6 @@ exports.seed = async function (knex) {
       Role: "employee"
     },
     {
-      AccountID: 5,
       FirstName: "Hoa",
       MiddleName: "Thị",
       LastName: "Nguyễn",
@@ -77,7 +72,6 @@ exports.seed = async function (knex) {
       Role: "customer"
     },
     {
-      AccountID: 6,
       FirstName: "Hùng",
       MiddleName: "Văn",
       LastName: "Đặng",
@@ -92,7 +86,6 @@ exports.seed = async function (knex) {
       Role: "customer"
     },
     {
-      AccountID: 7,
       FirstName: "Hà",
       MiddleName: "Thanh",
       LastName: "Lý",

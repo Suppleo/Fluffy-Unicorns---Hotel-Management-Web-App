@@ -22,17 +22,19 @@ server.use(restify.plugins.queryParser()); // GET query
 
 const root = require('./routes/root');
 const room = require('./routes/room');
-const manager = require('./routes/manager');
 const customer = require('./routes/customer');
 const booking = require('./routes/booking');
 const account = require('./routes/account');
+const service = require('./routes/service');
+const payment_card = require('./routes/payment_card');
 
 root.applyRoutes(server);
 room.applyRoutes(server);
-manager.applyRoutes(server);
 customer.applyRoutes(server);
 booking.applyRoutes(server);
 account.applyRoutes(server);
+service.applyRoutes(server);
+payment_card.applyRoutes(server);
 
 var PORT = 8080;
 server.listen(PORT, function() {

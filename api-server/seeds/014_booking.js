@@ -2,7 +2,6 @@ exports.seed = async function (knex) {
   await knex("Booking").del();
   await knex("Booking").insert([
     {
-      BookingID: 1,
       CustomerID: 1,
       EmployeeID: 2, // employee01
       BookingDate: "2024-12-01",
@@ -13,7 +12,6 @@ exports.seed = async function (knex) {
       PaymentStatus: "Paid"
     },
     {
-      BookingID: 2,
       CustomerID: 2,
       EmployeeID: 3, // employee02
       BookingDate: "2024-12-05",
@@ -24,7 +22,6 @@ exports.seed = async function (knex) {
       PaymentStatus: "Unpaid"
     },
     {
-      BookingID: 3,
       CustomerID: 3,
       EmployeeID: 2, // employee01
       BookingDate: "2024-12-07",

@@ -2,7 +2,6 @@ exports.seed = async function (knex) {
   await knex("Service").del();
   await knex("Service").insert([
     {
-      ServiceID: 1,
       ServiceName: "Laundry",
       ServiceType: "Laundry",
       Unit: "Load",
@@ -10,7 +9,6 @@ exports.seed = async function (knex) {
       Description: "Professional laundry and dry cleaning service"
     },
     {
-      ServiceID: 2,
       ServiceName: "In-room dining",
       ServiceType: "Food Service",
       Unit: "Order",
@@ -18,7 +16,6 @@ exports.seed = async function (knex) {
       Description: "24/7 room service dining"
     },
     {
-      ServiceID: 3,
       ServiceName: "Spa treatments",
       ServiceType: "Wellness",
       Unit: "Session",
@@ -26,7 +23,6 @@ exports.seed = async function (knex) {
       Description: "Massage and spa therapy services"
     },
     {
-      ServiceID: 4,
       ServiceName: "Airport shuttle",
       ServiceType: "Transportation",
       Unit: "Trip",
@@ -34,7 +30,6 @@ exports.seed = async function (knex) {
       Description: "Round-trip airport transfer service"
     },
     {
-      ServiceID: 5,
       ServiceName: "Bike Rentals",
       ServiceType: "Recreation",
       Unit: "Day",
