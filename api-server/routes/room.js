@@ -7,7 +7,7 @@ const {validated} = require('./middleware/validated');
 const Room = require('../models/room');
 const {getPgClient} = require('../models/db')
 
-router.get('/room', async (req, res) => {
+router.get('/api/room', async (req, res) => {
     try {
         const result = await Room.getAllRooms();
         if (result.success) {
@@ -29,7 +29,7 @@ router.get('/room', async (req, res) => {
     }
 });
 
-router.get('/room/:id', async (req, res) => {
+router.get('/api/room/:id', async (req, res) => {
     try {
         const roomId = parseInt(req.params.id);
         const result = await Room.getRoomById(roomId);

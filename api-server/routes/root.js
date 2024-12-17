@@ -2,7 +2,7 @@ var Router = require('restify-router').Router;
 const router = new Router();
 var {getPgClient} = require('../models/db');
 
-router.get('/', async (req, res) => {
+router.get('/api/', async (req, res) => {
     const client = getPgClient();
 
     var db_info = "Database is up & running";

@@ -2,7 +2,7 @@ const Router = require('restify-router').Router;
 const router = new Router();
 const PaymentCard = require('../models/payment_card');
 
-router.get('/paymentcard/customer/:id', async (req, res) => {
+router.get('/api/paymentcard/customer/:id', async (req, res) => {
     try {
         const customerId = parseInt(req.params.id);
         const result = await PaymentCard.getCustomerCards(customerId);
@@ -12,7 +12,7 @@ router.get('/paymentcard/customer/:id', async (req, res) => {
     }
 });
 
-router.post('/paymentcard/customer/:id', async (req, res) => {
+router.post('/api/paymentcard/customer/:id', async (req, res) => {
     try {
         const customerId = parseInt(req.params.id);
         const result = await PaymentCard.addCustomerCard(customerId, req.body);
@@ -22,7 +22,7 @@ router.post('/paymentcard/customer/:id', async (req, res) => {
     }
 });
 
-router.patch('/paymentcard/customer/:id/:cardId', async (req, res) => {
+router.patch('/api/paymentcard/customer/:id/:cardId', async (req, res) => {
     try {
         const customerId = parseInt(req.params.id);
         const cardId = parseInt(req.params.cardId);
@@ -33,7 +33,7 @@ router.patch('/paymentcard/customer/:id/:cardId', async (req, res) => {
     }
 });
 
-router.del('/paymentcard/customer/:id/:cardId', async (req, res) => {
+router.del('/api/paymentcard/customer/:id/:cardId', async (req, res) => {
     try {
         const customerId = parseInt(req.params.id);
         const cardId = parseInt(req.params.cardId);

@@ -7,7 +7,7 @@ const {sign} = require('./middleware/authenticate');
 const Account = require('../models/account');
 var jwt = require('jsonwebtoken');
 
-router.post('/register', async (req, res) => {
+router.post('/api/register', async (req, res) => {
     try {
         const { FirstName, LastName, Username, Phone, Password } = req.body;
         const result = await Account.register(FirstName, LastName, Username, Phone, Password);
@@ -36,7 +36,7 @@ router.post('/register', async (req, res) => {
     }
 });
 
-router.post('/login', async (req, res) => {
+router.post('/api/login', async (req, res) => {
     var {username = "", password = ""} = req.body;
 
     if ((username.length == 0)
@@ -69,7 +69,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.get('/account/:customerID', authenticated, async (req, res) => {
+router.get('/api/account/:customerID', authenticated, async (req, res) => {
     try {
         const customerId = parseInt(req.params.customerID);
         const result = await Account.getCustomerAccount(customerId);
@@ -93,7 +93,7 @@ router.get('/account/:customerID', authenticated, async (req, res) => {
     }
 });
 
-router.patch('/account/:customerID', authenticated, async (req, res) => {
+router.patch('/api/account/:customerID', authenticated, async (req, res) => {
     try {
         const customerId = parseInt(req.params.customerID);
         const result = await Account.updateCustomerAccount(customerId, req.body);
@@ -110,7 +110,7 @@ router.patch('/account/:customerID', authenticated, async (req, res) => {
     }
 });
 
-router.del('/account/:customerID', authenticated, async (req, res) => {
+router.del('/api/account/:customerID', authenticated, async (req, res) => {
     try {
         const customerId = parseInt(req.params.customerID);
         await Account.deleteCustomerAccount(customerId);

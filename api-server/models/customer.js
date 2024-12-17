@@ -3,10 +3,6 @@ const { rowFilter } = require('./security/row.js');
 const { columnFilter } = require('./security/column.js');
 const _ = require('lodash');
 
-// Định nghĩa bảng và các cột được phép thao tác
-const table = 'customers';
-const columns = ['username', 'fullname', 'email', 'tel'];
-
 const getOne = async (req) => {
     let knex = getKnex();
     
@@ -28,9 +24,6 @@ const getOne = async (req) => {
             'Account.Address',
             'Account.IDNumber'
         );
-
-    // Apply row-level security based on user role
-    query = rowFilter(query, "getAll", "customers", req.user);
 
     const result = await query;
     return result;

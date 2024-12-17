@@ -3,7 +3,7 @@ const router = new Router();
 var {getPgClient} = require('../models/db');
 const Service = require('../models/service');
 
-router.get('/service', async (req, res) => {
+router.get('/api/service', async (req, res) => {
     try {
         const result = await Service.getAllServices();
         if (result.success) {

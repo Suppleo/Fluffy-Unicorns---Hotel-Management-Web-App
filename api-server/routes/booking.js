@@ -5,7 +5,7 @@ const { authorized } = require('./middleware/authorize');
 const { validated } = require('./middleware/validated');
 const Booking = require('../models/booking');
 
-router.get('/booking/customer/:id', async (req, res) => {
+router.get('/api/booking/customer/:id', async (req, res) => {
     try {
         const customerId = parseInt(req.params.id);
         const result = await Booking.getCustomerBookings(customerId);

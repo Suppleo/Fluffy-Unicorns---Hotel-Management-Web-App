@@ -7,7 +7,7 @@ const { validated } = require('./middleware/validated');
 const Customer = require('../models/customer');
 
 // Endpoint GET /customer - Lấy danh sách khách hàng
-router.get('/customer', [authenticated, authorized], async (req, res) => {
+router.get('/api/customer', async (req, res) => {
     try {
         const result = await Customer.getOne(req);
 
