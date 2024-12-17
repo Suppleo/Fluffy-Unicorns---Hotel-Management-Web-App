@@ -67,8 +67,103 @@ const login = async (username, password) => {
     return result.rows[0].json_agg[0];;
 } 
 
+const getCustomerAccount = async (customerId) => {
+    const knex = getKnex();
+    const account = await knex('Account')
+        .join('Customer', 'Account.AccountID', '=', 'Customer.AccountID')
+        .select(
+            'Account.AccountID',
+            'Customer.CustomerID',
+            'Account.FirstName',
+            'Account.MiddleName',
+            'Account.LastName',
+            'Account.Username',
+            'Account.Status',
+            'Account.DateOfBirth',
+            'Account.Gender',
+            'Account.Email',
+            'Account.Phone',
+            'Account.Address',
+            'Account.IDNumber',
+            'Customer.RewardPoints'
+        )
+        .where('Customer.CustomerID', customerId)
+        .first();
+    
+    return { success: true, data: account };
+};
+
+const updateCustomerAccount = async (customerId, accountData) => {
+    const knex = getKnex();
+    
+    // Create update object with only non-null values
+    const updateFields = {};
+    const allowedFields = [
+        'FirstName', 
+        'MiddleName', 
+        'LastName', 
+        'Gender', 
+        'Email', 
+        'Phone', 
+        'Address',
+        'IDNumber'
+    ];
+
+    allowedFields.forEach(field => {
+        if (accountData[field] !== null && accountData[field] !== undefined && accountData[field] !== '') {
+            updateFields[field] = accountData[field];
+        }
+    });
+
+    // Handle DateOfBirth separately
+    if (accountData.DateOfBirth && accountData.DateOfBirth !== '') {
+        updateFields.DateOfBirth = accountData.DateOfBirth;
+    }
+
+    // Check if there are any fields to update
+    if (Object.keys(updateFields).length === 0) {
+        return { success: false, data: "No valid fields provided for update" };
+    }
+
+    const result = await knex.transaction(async (trx) => {
+        const customer = await trx('Customer')
+            .where('CustomerID', customerId)
+            .first();
+
+        const [updatedAccount] = await trx('Account')
+            .where('AccountID', customer.AccountID)
+            .update(updateFields)
+            .returning('*');
+
+        return updatedAccount;
+    });
+
+    return { success: true, data: result };
+};
+
+const deleteCustomerAccount = async (customerId) => {
+    const knex = getKnex();
+    await knex.transaction(async (trx) => {
+        const customer = await trx('Customer')
+            .where('CustomerID', customerId)
+            .first();
+
+        await trx('Customer')
+            .where('CustomerID', customerId)
+            .del();
+
+        await trx('Account')
+            .where('AccountID', customer.AccountID)
+            .update({ Status: 'Locked' });
+    });
+
+    return { success: true };
+};
 
 module.exports = {
     register,
-    login
+    login,
+    getCustomerAccount,
+    updateCustomerAccount,
+    deleteCustomerAccount
 };

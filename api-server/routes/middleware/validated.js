@@ -1,11 +1,11 @@
 let Validator = require('validatorjs');
 let rules = {
-    "/customer": {
-        "POST": {
-            username: "required|string|min:3|max:20",
-            password: "required|string|min:3|max:50"
-        }
-    },
+    // "/customer": {
+    //     "POST": {
+    //         username: "required|string|min:3|max:20",
+    //         password: "required|string|min:3|max:50"
+    //     }
+    // },
 };
 
 module.exports.validated = function (req, res, next) {

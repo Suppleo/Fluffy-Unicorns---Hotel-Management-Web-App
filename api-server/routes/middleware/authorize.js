@@ -1,15 +1,15 @@
 let table_policies =  { // TODO: Tạo từ CSDL
-    "/customer": {
-        "admin": {
-            "GET": true,
-        },
-        "manager": {
-            "GET": true,
-        },
-        "customer": {
-            "GET": true,
-        },
-    },
+    // "/customer": {
+    //     "admin": {
+    //         "GET": true,
+    //     },
+    //     "manager": {
+    //         "GET": true,
+    //     },
+    //     "customer": {
+    //         "GET": true,
+    //     },
+    // },
 };
 
 module.exports.authorized = function(req, res, next) {

@@ -1,16 +1,16 @@
 let policies = {
-    "customers": {
-        "admin": {
-            "getOne": (knex) => knex,
-        },
-        "manager": {
-            "getOne": (knex) => knex,
-        },
-        "customer": {
-            "getOne": (knex, user) => 
-                knex.where({ username: user.username }),
-        }
-    },
+    // "customers": {
+    //     "admin": {
+    //         "getOne": (knex) => knex,
+    //     },
+    //     "manager": {
+    //         "getOne": (knex) => knex,
+    //     },
+    //     "customer": {
+    //         "getOne": (knex, user) => 
+    //             knex.where({ username: user.username }),
+    //     }
+    // },
 };
 
 module.exports = {

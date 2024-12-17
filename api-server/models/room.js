@@ -4,6 +4,7 @@ var format = require('pg-format');
 
 const getAllRooms = async () => {
     const knex = getKnex();
+    const baseUrl = 'https://musical-journey-4jv7x9prqx5wf5r7p-8080.app.github.dev';
     try {
         const rooms = await knex('Room')
             .join('RoomType', 'Room.RoomTypeID', '=', 'RoomType.RoomTypeID')
@@ -19,7 +20,13 @@ const getAllRooms = async () => {
                 'RoomType.MaxOccupancy',
                 'RoomType.Area',
                 knex.raw('array_agg(DISTINCT "Amenity"."AmenityName") as amenities'),
-                knex.raw('array_agg(DISTINCT "RoomTypeImages"."ImageID") as images')
+                knex.raw(`array_agg(
+                    CASE 
+                        WHEN "RoomTypeImages"."ImagePath" IS NOT NULL 
+                        THEN concat('${baseUrl}/uploads/', "RoomTypeImages"."ImagePath")
+                        ELSE NULL 
+                    END
+                ) as images`)
             )
             .groupBy(
                 'Room.RoomID',

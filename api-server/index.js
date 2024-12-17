@@ -20,6 +20,10 @@ server.use(cors.actual);
 server.use(restify.plugins.bodyParser({ mapParams: true })); // POST params
 server.use(restify.plugins.queryParser()); // GET query
 
+server.get('/uploads/*', restify.plugins.serveStatic({
+    directory: __dirname,
+}));
+
 const root = require('./routes/root');
 const room = require('./routes/room');
 const customer = require('./routes/customer');

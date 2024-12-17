@@ -69,5 +69,60 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.get('/account/:customerID', authenticated, async (req, res) => {
+    try {
+        const customerId = parseInt(req.params.customerID);
+        const result = await Account.getCustomerAccount(customerId);
+        
+        if (result.data) {
+            res.send(200, {
+                success: true,
+                data: result.data
+            });
+        } else {
+            res.send(404, {
+                success: false,
+                message: 'Customer not found'
+            });
+        }
+    } catch (error) {
+        res.send(500, {
+            success: false,
+            message: error.message
+        });
+    }
+});
+
+router.patch('/account/:customerID', authenticated, async (req, res) => {
+    try {
+        const customerId = parseInt(req.params.customerID);
+        const result = await Account.updateCustomerAccount(customerId, req.body);
+        
+        res.send(200, {
+            success: true,
+            data: result.data
+        });
+    } catch (error) {
+        res.send(500, {
+            success: false,
+            message: error.message
+        });
+    }
+});
+
+router.del('/account/:customerID', authenticated, async (req, res) => {
+    try {
+        const customerId = parseInt(req.params.customerID);
+        await Account.deleteCustomerAccount(customerId);
+        
+        res.send(204);
+    } catch (error) {
+        res.send(500, {
+            success: false,
+            message: error.message
+        });
+    }
+});
+
 
 module.exports = router;
