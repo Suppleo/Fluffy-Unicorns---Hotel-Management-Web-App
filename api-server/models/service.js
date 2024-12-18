@@ -18,6 +18,74 @@ const getAllServices = async () => {
     }
 };
 
+const getAllServiceUsages = async () => {
+    const knex = getKnex();
+    try {
+        const serviceUsages = await knex('ServiceUsage')
+            .join('Service', 'ServiceUsage.ServiceID', '=', 'Service.ServiceID')
+            .join('BookingDetail', 'ServiceUsage.BookingDetailID', '=', 'BookingDetail.BookingDetailID')
+            .select(
+                'ServiceUsage.ServiceUsageID',
+                'ServiceUsage.BookingDetailID',
+                'ServiceUsage.Amount',
+                'ServiceUsage.UsageDate',
+                'Service.ServiceName',
+                'Service.ServiceType',
+                'Service.Unit',
+                'Service.UnitPrice',
+                'BookingDetail.BookingID'
+            );
+        return { success: true, data: serviceUsages };
+    } catch (error) {
+        return { success: false, message: error.message };
+    }
+};
+
+const getServiceUsagesByBookingId = async (bookingId) => {
+    const knex = getKnex();
+    try {
+        const serviceUsages = await knex('ServiceUsage')
+            .join('Service', 'ServiceUsage.ServiceID', '=', 'Service.ServiceID')
+            .join('BookingDetail', 'ServiceUsage.BookingDetailID', '=', 'BookingDetail.BookingDetailID')
+            .where('BookingDetail.BookingID', bookingId)
+            .select(
+                'ServiceUsage.ServiceUsageID',
+                'ServiceUsage.BookingDetailID',
+                'ServiceUsage.Amount',
+                'ServiceUsage.UsageDate',
+                'Service.ServiceName',
+                'Service.ServiceType',
+                'Service.Unit',
+                'Service.UnitPrice'
+            )
+            .distinct();
+        return { success: true, data: serviceUsages };
+    } catch (error) {
+        return { success: false, message: error.message };
+    }
+};
+
+const createServiceUsage = async (serviceUsageData) => {
+    const knex = getKnex();
+    try {
+        const [serviceUsage] = await knex('ServiceUsage')
+            .insert({
+                BookingDetailID: serviceUsageData.BookingDetailID,
+                ServiceID: serviceUsageData.ServiceID,
+                Amount: serviceUsageData.Amount,
+                UsageDate: serviceUsageData.UsageDate || knex.fn.now()
+            })
+            .returning('*');
+        return { success: true, data: serviceUsage };
+    } catch (error) {
+        return { success: false, message: error.message };
+    }
+};
+
 module.exports = {
-    getAllServices
+    getAllServices,
+    getAllServiceUsages,
+    getServiceUsagesByBookingId,
+    createServiceUsage
 }
+

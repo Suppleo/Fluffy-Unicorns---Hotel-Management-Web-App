@@ -39,9 +39,7 @@ router.post('/api/register', async (req, res) => {
 router.post('/api/login', async (req, res) => {
     var {username = "", password = ""} = req.body;
 
-    if ((username.length == 0)
-        || (password.length == 0)
-    ) {
+    if ((username.length == 0) || (password.length == 0)) {
         res.send({
             success: false,
             code: 401,
@@ -49,16 +47,16 @@ router.post('/api/login', async (req, res) => {
         })
     }
 
-    const {success, error_code, message, data} = 
-	    await Account.login(username, password);
+    const result = await Account.login(username, password);
 
-    if (success) {
-        const token = sign(username, data.role);
+    if (result.success) {
         res.send({
             success: true,
             code: 200,
             message: "Login successfully",
-            token: token
+            token: result.token,
+            customerID: result.customerID,
+            role: result.role
         })
     } else {
         res.send({
@@ -69,7 +67,8 @@ router.post('/api/login', async (req, res) => {
     }
 });
 
-router.get('/api/account/:customerID', authenticated, async (req, res) => {
+
+router.get('/api/account/:customerID', async (req, res) => {
     try {
         const customerId = parseInt(req.params.customerID);
         const result = await Account.getCustomerAccount(customerId);
@@ -93,7 +92,7 @@ router.get('/api/account/:customerID', authenticated, async (req, res) => {
     }
 });
 
-router.patch('/api/account/:customerID', authenticated, async (req, res) => {
+router.patch('/api/account/:customerID', async (req, res) => {
     try {
         const customerId = parseInt(req.params.customerID);
         const result = await Account.updateCustomerAccount(customerId, req.body);
@@ -110,7 +109,7 @@ router.patch('/api/account/:customerID', authenticated, async (req, res) => {
     }
 });
 
-router.del('/api/account/:customerID', authenticated, async (req, res) => {
+router.del('/api/account/:customerID', async (req, res) => {
     try {
         const customerId = parseInt(req.params.customerID);
         await Account.deleteCustomerAccount(customerId);

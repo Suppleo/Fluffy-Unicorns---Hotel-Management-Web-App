@@ -1,15 +1,10 @@
-var Router = require('restify-router').Router;
+const Router = require('restify-router').Router;
 const router = new Router();
-var format = require('pg-format');
-var {authenticated} = require('./middleware/authenticate'); 
-const {authorized} = require('./middleware/authorize');
-const {validated} = require('./middleware/validated');
-const Room = require('../models/room');
-const {getPgClient} = require('../models/db')
+const Payment = require('../models/payment');
 
-router.get('/api/room', async (req, res) => {
+router.get('/api/payments', async (req, res) => {
     try {
-        const result = await Room.getAllRooms();
+        const result = await Payment.getAllPayments();
         if (result.success) {
             res.send(200, {
                 success: true,
@@ -29,18 +24,17 @@ router.get('/api/room', async (req, res) => {
     }
 });
 
-router.get('/api/room/:id', async (req, res) => {
+router.get('/api/payments/booking/:bookingId', async (req, res) => {
     try {
-        const roomId = parseInt(req.params.id);
-        const result = await Room.getRoomById(roomId);
-        
+        const bookingId = parseInt(req.params.bookingId);
+        const result = await Payment.getPaymentByBookingId(bookingId);
         if (result.success) {
             res.send(200, {
                 success: true,
                 data: result.data
             });
         } else {
-            res.send(404, {
+            res.send(500, {
                 success: false,
                 message: result.message
             });
@@ -53,16 +47,16 @@ router.get('/api/room/:id', async (req, res) => {
     }
 });
 
-router.get('/api/roomtypes', async (req, res) => {
+router.post('/api/payments', async (req, res) => {
     try {
-        const result = await Room.getRoomTypes();
+        const result = await Payment.createPayment(req.body);
         if (result.success) {
-            res.send(200, {
+            res.send(201, {
                 success: true,
                 data: result.data
             });
         } else {
-            res.send(500, {
+            res.send(400, {
                 success: false,
                 message: result.message
             });

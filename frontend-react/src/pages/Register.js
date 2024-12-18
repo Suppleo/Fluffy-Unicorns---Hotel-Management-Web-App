@@ -24,7 +24,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://musical-journey-4jv7x9prqx5wf5r7p-8080.app.github.dev/register', formData);
+      const response = await axios.post('http://10.11.10.13/api/register', formData);
       if (response.data.success) {
         navigate('/login');
       }

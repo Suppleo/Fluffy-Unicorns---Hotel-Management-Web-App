@@ -29,4 +29,131 @@ router.get('/api/booking/customer/:id', async (req, res) => {
     }
 });
 
+router.get('/api/booking/:bookingId/details', async (req, res) => {
+    try {
+        const bookingId = parseInt(req.params.bookingId);
+        const result = await Booking.getBookingDetailsById(bookingId);
+        
+        if (result.success) {
+            res.send(200, {
+                success: true,
+                data: result.data
+            });
+        } else {
+            res.send(500, {
+                success: false,
+                message: result.message
+            });
+        }
+    } catch (error) {
+        res.send(500, {
+            success: false,
+            message: error.message
+        });
+    }
+});
+
+router.get('/api/booking/history/:customerId', async (req, res) => {
+    try {
+        const customerId = parseInt(req.params.customerId);
+        const result = await Booking.getCustomerBookingHistory(customerId);
+        
+        if (result.success) {
+            res.send(200, {
+                success: true,
+                data: result.data
+            });
+        } else {
+            res.send(500, {
+                success: false,
+                message: result.message
+            });
+        }
+    } catch (error) {
+        res.send(500, {
+            success: false,
+            message: error.message
+        });
+    }
+});
+
+router.post('/api/booking', async (req, res) => {
+    try {
+        const { CustomerID } = req.body;
+        const result = await Booking.createInitialBooking(CustomerID);
+        
+        if (result.success) {
+            res.send(201, {
+                success: true,
+                data: result.data
+            });
+        } else {
+            res.send(400, {
+                success: false,
+                message: result.message
+            });
+        }
+    } catch (error) {
+        res.send(500, {
+            success: false,
+            message: error.message
+        });
+    }
+});
+
+router.patch('/api/booking/:bookingId', async (req, res) => {
+    try {
+        const bookingId = parseInt(req.params.bookingId);
+        const result = await Booking.updateBooking(bookingId, req.body);
+        
+        if (result.success) {
+            res.send(200, {
+                success: true,
+                data: result.data
+            });
+        } else {
+            res.send(400, {
+                success: false,
+                message: result.message
+            });
+        }
+    } catch (error) {
+        res.send(500, {
+            success: false,
+            message: error.message
+        });
+    }
+});
+
+router.post('/api/booking/:bookingId/detail', async (req, res) => {
+    try {
+        const bookingId = parseInt(req.params.bookingId);
+        const bookingDetailData = {
+            BookingID: bookingId,
+            RoomID: req.body.RoomID,
+            GuestID: req.body.GuestID
+        };
+        
+        const result = await Booking.createBookingDetail(bookingDetailData);
+        
+        if (result.success) {
+            res.send(201, {
+                success: true,
+                data: result.data
+            });
+        } else {
+            res.send(400, {
+                success: false,
+                message: result.message
+            });
+        }
+    } catch (error) {
+        res.send(500, {
+            success: false,
+            message: error.message
+        });
+    }
+});
+
+
 module.exports = router;

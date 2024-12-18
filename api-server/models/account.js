@@ -3,6 +3,8 @@ const { rowFilter } = require('./security/row.js');
 const { columnFilter } = require('./security/column.js');
 const {getPgClient} = require('./db.js');
 const format = require('pg-format');
+var jwt = require('jsonwebtoken');
+const secret = `${process.env.secret}`;
 
 const register = async (FirstName, LastName, Username, Phone, Password) => {
     const knex = getKnex();
@@ -64,8 +66,32 @@ const login = async (username, password) => {
     const result = await client.query(sql);  
     await client.end();
 
-    return result.rows[0].json_agg[0];;
-} 
+    const loginResult = result.rows[0].json_agg[0];
+    
+    if (loginResult.success) {
+        const token = jwt.sign(
+            {
+                username: username,
+                role: loginResult.data.role,
+                customerID: loginResult.data.customerID
+            }, 
+            secret, 
+            { expiresIn: '1h' }
+        );
+        
+        return {
+            success: true,
+            code: 200,
+            message: loginResult.message,
+            token: token,
+            customerID: loginResult.data.customerID,
+            role: loginResult.data.role
+        };
+    }
+    
+    return loginResult;
+}
+
 
 const getCustomerAccount = async (customerId) => {
     const knex = getKnex();

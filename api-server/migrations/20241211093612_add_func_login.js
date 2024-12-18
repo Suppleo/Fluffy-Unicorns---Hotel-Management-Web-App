@@ -18,7 +18,15 @@ exports.up = async function(knex) {
             if found then
                 if auth_info.password_hash = crypt(password, auth_info.password_hash) then
                     return (true, 0, 'Login successfully', 
-                        concat('{"role": "', auth_info.rolename, '"}')::jsonb
+                        (select jsonb_build_object(
+                            'role', auth_info.rolename,
+                            'customerID', (
+                                select c."CustomerID" 
+                                from "Customer" c 
+                                join "Account" a on a."AccountID" = c."AccountID" 
+                                where a."Username" = auth_info.username
+                            )
+                        ))
                     )::Result;
                 else
                     return (false, 1, 'Invalid username or password', '{}'::jsonb

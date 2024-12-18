@@ -2,9 +2,10 @@ const {getPgClient, getKnex} = require('./db.js');
 const _ = require('lodash');
 var format = require('pg-format');
 
+const baseUrl = 'http://10.11.10.13/api';
+
 const getAllRooms = async () => {
     const knex = getKnex();
-    const baseUrl = 'https://musical-journey-4jv7x9prqx5wf5r7p-8080.app.github.dev';
     try {
         const rooms = await knex('Room')
             .join('RoomType', 'Room.RoomTypeID', '=', 'RoomType.RoomTypeID')
@@ -20,7 +21,7 @@ const getAllRooms = async () => {
                 'RoomType.MaxOccupancy',
                 'RoomType.Area',
                 knex.raw('array_agg(DISTINCT "Amenity"."AmenityName") as amenities'),
-                knex.raw(`array_agg(
+                knex.raw(`array_agg(DISTINCT
                     CASE 
                         WHEN "RoomTypeImages"."ImagePath" IS NOT NULL 
                         THEN concat('${baseUrl}/uploads/', "RoomTypeImages"."ImagePath")
@@ -61,7 +62,13 @@ const getRoomById = async (roomId) => {
                 'RoomType.MaxOccupancy',
                 'RoomType.Area',
                 knex.raw('array_agg(DISTINCT "Amenity"."AmenityName") as amenities'),
-                knex.raw('array_agg(DISTINCT "RoomTypeImages"."ImageID") as images')
+                knex.raw(`array_agg(DISTINCT
+                    CASE 
+                        WHEN "RoomTypeImages"."ImagePath" IS NOT NULL 
+                        THEN concat('${baseUrl}/uploads/', "RoomTypeImages"."ImagePath")
+                        ELSE NULL 
+                    END
+                ) as images`)
             )
             .where('Room.RoomID', roomId)
             .groupBy(
@@ -85,7 +92,41 @@ const getRoomById = async (roomId) => {
     }
 };
 
+const getRoomTypes = async () => {
+    const knex = getKnex();
+    try {
+        const roomTypes = await knex('RoomType')
+            .leftJoin('RoomTypeImages', 'RoomType.RoomTypeID', '=', 'RoomTypeImages.RoomTypeID')
+            .select(
+                'RoomType.RoomTypeID',
+                'RoomType.TypeName',
+                'RoomType.BasePrice',
+                'RoomType.MaxOccupancy',
+                'RoomType.Area',
+                knex.raw(`array_agg(
+                    CASE 
+                        WHEN "RoomTypeImages"."ImagePath" IS NOT NULL 
+                        THEN concat('${baseUrl}/uploads/', "RoomTypeImages"."ImagePath")
+                        ELSE NULL 
+                    END
+                ) as images`)
+            )
+            .groupBy(
+                'RoomType.RoomTypeID',
+                'RoomType.TypeName',
+                'RoomType.BasePrice', 
+                'RoomType.MaxOccupancy',
+                'RoomType.Area'
+            );
+
+        return { success: true, data: roomTypes };
+    } catch (error) {
+        return { success: false, message: error.message };
+    }
+};
+
 module.exports = {
     getAllRooms,
-    getRoomById
+    getRoomById,
+    getRoomTypes
 }
