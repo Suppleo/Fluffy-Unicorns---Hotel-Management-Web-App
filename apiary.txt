@@ -1,18 +1,13 @@
 swagger: '2.0'
 info:
   version: '1.0'
-  title: "Fluffy Unicorns"
-  description: |
-    **Team Members:**
-    
-    Nguyễn Ngọc Thạch - 2201700077
-    
-    Hoàng Anh - 2201700173
-    
-    Lê Đức Long - 2201700192
-
-host: https://nightmarish-wand-5gq9qjp4qgrjfq4r-8080.app.github.dev/
-basePath: /
+  title: "FINAL EXAM"
+  description: Polls is a simple API allowing consumers to view polls and vote in them.
+  license:
+    name: MIT
+    url: https://github.com/apiaryio/polls-api/blob/master/LICENSE
+host: 10.11.10.13
+basePath: /api
 schemes:
 - https
 consumes:
@@ -21,6 +16,7 @@ produces:
 - application/json
 paths:
   /login:
+    x-summary: Đăng nhập
     post:
       summary: Đăng nhập
       parameters:
@@ -30,156 +26,407 @@ paths:
           schema:
             $ref: '#/definitions/LoginRequest'
       responses:
-        '200':
-          description: Đăng nhập thành công
+        200:
+          description: Login successfully
           schema:
-            $ref: '#/definitions/LoginResponse'
-        '400':
-          description: Lỗi đầu vào
-        '401':
-          description: Sai thông tin đăng nhập
-  /customer:
+            items:
+              $ref: '#/definitions/LoginRequest'
+          examples:
+            application/json:
+              - success: true,
+                code: 200,
+                message: "Login successfully"
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiY3VzdG9tZXJJRCI6bnVsbCwiaWF0IjoxNzM0NzQ2Mzc0LCJleHAiOjE3MzQ3NDk5NzR9.1tOvayMphpEKLmdV-QtfWaqFkI1WO_YPiVbbWrIXxlw"
+                customerID: null
+                role: "admin"
+        401:
+          description: Invalid username or password
+          examples:
+            application/json:
+              - success: false,
+                code: 401,
+                message: "Invalid username or password"
+    
+  /service:
+    x-summary: Xem và Thêm các dịch vụ
     get:
-      summary: Lấy danh sách khách hàng
+      summary: Xem danh sách các dịch vụ
       responses:
-        '200':
-          description: Danh sách khách hàng
+        200:
+          description: Services retrieved successfully
           schema:
             type: array
             items:
-              $ref: '#/definitions/Customer'
+              $ref: '#/definitions/GetService'
           examples:
             application/json:
-              - username: admin
-                fullname: Administrator
-                email: admin@example.com
-                tel: '0123456789'
-              - username: customer
-                fullname: John Doe
-                email: john@example.com
-                tel: '0987654321'
+              - success: true,
+                message: "Services retrieved successfully"
+                data: [
+                    {
+                      "ServiceID": 1,
+                      "ServiceName": "Laundry",
+                      "ServiceType": "Laundry",
+                      "Unit": "Load",
+                      "UnitPrice": "25.00",
+                      "Description": "Professional laundry and dry cleaning service"
+                    },
+                    {
+                        "ServiceID": 2,
+                        "ServiceName": "In-room dining",
+                        "ServiceType": "Food Service",
+                        "Unit": "Order",
+                        "UnitPrice": "35.00",
+                        "Description": "24/7 room service dining"
+                    },
+                    {
+                        "ServiceID": 3,
+                        "ServiceName": "Spa treatments",
+                        "ServiceType": "Wellness",
+                        "Unit": "Session",
+                        "UnitPrice": "80.00",
+                        "Description": "Massage and spa therapy services"
+                    },
+                    {
+                        "ServiceID": 4,
+                        "ServiceName": "Airport shuttle",
+                        "ServiceType": "Transportation",
+                        "Unit": "Trip",
+                        "UnitPrice": "30.00",
+                        "Description": "Round-trip airport transfer service"
+                    },
+                    {
+                        "ServiceID": 5,
+                        "ServiceName": "Bike Rentals",
+                        "ServiceType": "Recreation",
+                        "Unit": "Day",
+                        "UnitPrice": "15.00",
+                        "Description": "City bikes available for guest use"
+                    }
+                  ]
+        401:
+          description: Unauthorized access
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/GetService'
+          examples:
+            application/json:
+              - success: false
+                code: 401
+                message: "Unauthorized access - Insufficient privilege"
+        500:
+          description: Failed to retrieve services
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/GetService'
+          examples:
+            application/json:
+              - success: false,
+                message: "Failed to retrieve services"
+    
     post:
-      summary: Tạo mới khách hàng
-      parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/NewCustomerRequest'
+      summary: Thêm mới một dịch vụ
       responses:
-        '201':
-          description: Khách hàng đã được tạo mới
+        201:
+          description: Service created successfully
           schema:
-            $ref: '#/definitions/Customer'
-  /customer/{username}:
+            type: array
+            items:
+              $ref: '#/definitions/PostService'
+          examples:
+            application/json:
+              - success: true,
+                data: {
+                    "ServiceID": 9,
+                    "ServiceName": "test",
+                    "ServiceType": "test",
+                    "Unit": "test",
+                    "UnitPrice": "122.00",
+                    "Description": "test"
+                }
+        400:
+          description: Failed to create service
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PostService'
+          examples:
+            application/json:
+              - success: false,
+                message: "Failed to create service"
+        401:
+          description: Unauthorized access
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PostService'
+          examples:
+            application/json:
+              - success: false
+                code: 401
+                message: "Unauthorized access - Insufficient privilege"
+
+  /service/6:
+    x-summary: Cập nhật và Xóa một dịch vụ
     get:
-      summary: Lấy thông tin khách hàng
-      parameters:
-        - name: username
-          in: path
-          required: true
-          type: string
+      summary: Xem danh sách dịch vụ bằng ID
       responses:
-        '200':
-          description: Thông tin khách hàng
+        200:
+          description: Services retrieved successfully
           schema:
-            $ref: '#/definitions/Customer'
-    delete:
-      summary: Xóa khách hàng
-      parameters:
-        - name: username
-          in: path
-          required: true
-          type: string
-      responses:
-        '204':
-          description: Khách hàng đã được xóa
+            type: array
+            items:
+              $ref: '#/definitions/GetServiceID'
+          examples:
+            application/json:
+              - success: true,
+                message: "Services retrieved successfully"
+                data: [
+                    {
+                        "ServiceID": 6,
+                        "ServiceName": "Bike Rentals",
+                        "ServiceType": "Recreation",
+                        "Unit": "Day",
+                        "UnitPrice": "15.00",
+                        "Description": "City bikes available for guest use"
+                    }
+                  ]
+        401:
+          description: Unauthorized access
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/GetServiceID'
+          examples:
+            application/json:
+              - success: false
+                code: 401
+                message: "Unauthorized access - Insufficient privilege"
+        404:
+          description: Service not found
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/GetServiceID'
+          examples:
+            application/json:
+              - success: false
+                message: "Service not found"
+                
     patch:
-      summary: Cập nhật thông tin khách hàng
-      parameters:
-        - name: username
-          in: path
-          required: true
-          type: string
-        - name: body
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/UpdateCustomerRequest'
+      summary: Cập nhật một dịch vụ
       responses:
-        '200':
-          description: Thông tin khách hàng đã được cập nhật
+        200:
+          description: Service updated successfully
           schema:
-            $ref: '#/definitions/Customer'
+            type: array
+            items:
+              $ref: '#/definitions/PatchService'
+          examples:
+            application/json:
+              - success: true
+                message: "Service updated successfully"
+        400:
+          description: Failed to update service
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PatchService'
+          examples:
+            application/json:
+              - success: false
+                message: "Failed to update service"
+        401:
+          description: Unauthorized access
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PatchService'
+          examples:
+            application/json:
+              - success: false
+                code: 401
+                message: "Unauthorized access - Insufficient privilege"
+    
+    delete:
+      summary: Xóa một dịch vụ
+      responses:
+        200:
+          description: Service deleted successfully
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DeleteService'
+          examples:
+            application/json:
+              - success: true
+                message: "Service deleted successfully"
+        400:
+          description: Failed to delete service
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DeleteService'
+          examples:
+            application/json:
+              - success: false
+                message: "Failed to delete service"
+        401:
+          description: Unauthorized access
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DeleteService'
+          examples:
+            application/json:
+              - success: false
+                code: 401
+                message: "Unauthorized access - Insufficient privilege"
+              
 definitions:
   LoginRequest:
     title: Login Request
     type: object
-    properties:/-strong/-heart:>:o:-((:-h username:
+    properties:
+      username:
+        description: Username
         type: string
       password:
-        type: string
+        description: Password
+        items:
+          type: string
     required:
       - username
       - password
-  LoginResponse:
-    title: Login Response
+      
+  GetService:
+    title: Get Service
     type: object
     properties:
-      success:
-        type: boolean
-      code:
-        type: integer
-      message:
+      ServiceID:
+        description: ID
         type: string
-      data:
+      ServiceName:
+        description: Name
         type: string
-  Customer:
-    title: Customer
+      ServiceType:
+        description: Type
+        type: string
+      Unit:
+        description: Unit
+        type: string
+      UnitPrice:
+        description: Unit per Price
+        type: string
+      Description:
+        description: Description
+        type: string
+  
+  GetServiceID:
+    title: Get Service
     type: object
     properties:
-      username:
+      ServiceID:
+        description: ID
         type: string
-      fullname:
+      ServiceName:
+        description: Name
         type: string
-      email:
+      ServiceType:
+        description: Type
         type: string
-      tel:
+      Unit:
+        description: Unit
+        type: string
+      UnitPrice:
+        description: Unit per Price
+        type: string
+      Description:
+        description: Description
+        type: string
+        
+  PostService:
+    title: Post Service
+    type: object
+    properties:
+      ServiceID:
+        description: ID
+        type: string
+      ServiceName:
+        description: Name
+        type: string
+      ServiceType:
+        description: Type
+        type: string
+      Unit:
+        description: Unit
+        type: string
+      UnitPrice:
+        description: Unit per Price
+        type: string
+      Description:
+        description: Description
         type: string
     required:
-      - username
-      - fullname
-      - email
-      - tel
-  NewCustomerRequest:
-    title: New Customer Request
+      - ServiceID
+      - ServiceName
+      - ServiceType
+      - Unit
+      - UnitPrice
+      - Description
+        
+  PatchService:
+    title: Patch Service
     type: object
     properties:
-      username:
+      ServiceID:
+        description: ID
         type: string
-      password:
+      ServiceName:
+        description: Name
+        type: string
+      ServiceType:
+        description: Type
+        type: string
+      Unit:
+        description: Unit
+        type: string
+      UnitPrice:
+        description: Unit per Price
+        type: string
+      Description:
+        description: Description
         type: string
     required:
-      - username
-      - password
-  UpdateCustomerRequest:
-    title: Update Customer Request
+      - ServiceID
+      - ServiceName
+      - ServiceType
+      - Unit
+      - UnitPrice
+      - Description
+        
+  DeleteService:
+    title: Delete Service
     type: object
     properties:
-      fullname:
+      ServiceID:
+        description: ID
         type: string
-      email:
+      ServiceName:
+        description: Name
         type: string
-      tel:
+      ServiceType:
+        description: Type
         type: string
-    required:
-      - fullname
-      - email
-      - tel
-    example:
-      question: Favourite programming language?
-      choices:
-        - Swift
-        - Python
-        - Objective-C
-        - Ruby
+      Unit:
+        description: Unit
+        type: string
+      UnitPrice:
+        description: Unit per Price
+        type: string
+      Description:
+        description: Description
+        type: string
+      
