@@ -11,7 +11,7 @@
 ## Project Github Link: [https://github.com/Suppleo/Fluffy-Unicorns---Hotel-Management-Web-App](https://github.com/Suppleo/Fluffy-Unicorns---Hotel-Management-Web-App)
 
 ## Site Map
-![Site Map](https://github.com/user-attachments/assets/2638283b-dec5-4443-8ecc-aff2086e7670)
+![Sitemap](https://github.com/user-attachments/assets/0e74964b-271a-4f31-ab37-c1785f8f3201)
 
 ## Database Schema: Service Table
 
