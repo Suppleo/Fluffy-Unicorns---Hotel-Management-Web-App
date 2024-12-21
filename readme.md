@@ -10,10 +10,6 @@
 
 ## Project Github Link: [https://github.com/Suppleo/Fluffy-Unicorns---Hotel-Management-Web-App](https://github.com/Suppleo/Fluffy-Unicorns---Hotel-Management-Web-App)
 
-<<<<<<< HEAD
-## Sitemap:
-![Sitemap of Fluffy Unicorns' Hotel Management Web App](sitemap.jpg)
-=======
 ## Site Map
 ![Site Map](https://github.com/user-attachments/assets/2638283b-dec5-4443-8ecc-aff2086e7670)
 
@@ -27,4 +23,3 @@
 | Unit          | Unit of service         | varchar(20)     |                                         |
 | UnitPrice     | Price per unit          | numeric(10,2)   | Default: 0.00, Check (UnitPrice >= 0)  |
 | Description   | Description of the service | text          |
->>>>>>> 33e140315bc62ef7e977bd35e1658697dc805885
