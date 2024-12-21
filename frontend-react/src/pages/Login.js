@@ -24,6 +24,7 @@ function Login() {
       const response = await axios.post('http://10.11.10.13/api/login', formData);
       if (response.data.success) {
         localStorage.setItem('token', response.data.token);
+        sessionStorage.setItem('customerId', response.data.customerID);
         navigate('/dashboard');
       }
     } catch (err) {

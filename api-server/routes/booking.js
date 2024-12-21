@@ -77,7 +77,7 @@ router.get('/api/booking/history/:customerId', async (req, res) => {
     }
 });
 
-router.post('/api/booking', async (req, res) => {
+router.post('/api/bookinginitial', async (req, res) => {
     try {
         const { CustomerID } = req.body;
         const result = await Booking.createInitialBooking(CustomerID);
@@ -101,10 +101,10 @@ router.post('/api/booking', async (req, res) => {
     }
 });
 
-router.patch('/api/booking/:bookingId', async (req, res) => {
+router.patch('/api/bookinginitial/:bookingId', async (req, res) => {
     try {
         const bookingId = parseInt(req.params.bookingId);
-        const result = await Booking.updateBooking(bookingId, req.body);
+        const result = await Booking.updateBookingInitial(bookingId, req.body);
         
         if (result.success) {
             res.send(200, {
@@ -154,6 +154,96 @@ router.post('/api/booking/:bookingId/detail', async (req, res) => {
         });
     }
 });
+
+router.del('/api/booking/detail/:bookingDetailId', async (req, res) => {
+    try {
+        const bookingDetailId = parseInt(req.params.bookingDetailId);
+        const result = await Booking.deleteBookingDetail(bookingDetailId);
+        
+        if (result.success) {
+            res.send(204);
+        } else {
+            res.send(400, {
+                success: false,
+                message: result.message
+            });
+        }
+    } catch (error) {
+        res.send(500, {
+            success: false,
+            message: error.message
+        });
+    }
+});
+
+router.post('/api/booking', async (req, res) => {
+    try {
+        const result = await Booking.createBooking(req.body);
+        
+        if (result.success) {
+            res.send(201, {
+                success: true,
+                data: result.data
+            });
+        } else {
+            res.send(400, {
+                success: false,
+                message: result.message
+            });
+        }
+    } catch (error) {
+        res.send(500, {
+            success: false,
+            message: error.message
+        });
+    }
+});
+
+router.del('/api/booking/:bookingId', async (req, res) => {
+    try {
+        const bookingId = parseInt(req.params.bookingId);
+        const result = await Booking.deleteBooking(bookingId);
+        
+        if (result.success) {
+            res.send(204);
+        } else {
+            res.send(400, {
+                success: false,
+                message: result.message
+            });
+        }
+    } catch (error) {
+        res.send(500, {
+            success: false,
+            message: error.message
+        });
+    }
+});
+
+router.patch('/api/booking/:bookingId', async (req, res) => {
+    try {
+        const bookingId = parseInt(req.params.bookingId);
+        const result = await Booking.updateBooking(bookingId, req.body);
+        
+        if (result.success) {
+            res.send(200, {
+                success: true,
+                data: result.data
+            });
+        } else {
+            res.send(400, {
+                success: false,
+                message: result.message
+            });
+        }
+    } catch (error) {
+        res.send(500, {
+            success: false,
+            message: error.message
+        });
+    }
+});
+
 
 
 module.exports = router;

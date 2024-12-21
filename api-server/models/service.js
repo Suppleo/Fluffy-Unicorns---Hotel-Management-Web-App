@@ -18,6 +18,43 @@ const getAllServices = async () => {
     }
 };
 
+const createService = async (serviceData) => {
+    const knex = getKnex();
+    try {
+        const [service] = await knex('Service')
+            .insert(serviceData)
+            .returning('*');
+        return { success: true, data: service };
+    } catch (error) {
+        return { success: false, message: error.message };
+    }
+};
+
+const updateService = async (serviceId, serviceData) => {
+    const knex = getKnex();
+    try {
+        const [service] = await knex('Service')
+            .where('ServiceID', serviceId)
+            .update(serviceData)
+            .returning('*');
+        return { success: true, data: service };
+    } catch (error) {
+        return { success: false, message: error.message };
+    }
+};
+
+const deleteService = async (serviceId) => {
+    const knex = getKnex();
+    try {
+        await knex('Service')
+            .where('ServiceID', serviceId)
+            .del();
+        return { success: true };
+    } catch (error) {
+        return { success: false, message: error.message };
+    }
+};
+
 const getAllServiceUsages = async () => {
     const knex = getKnex();
     try {
@@ -86,6 +123,9 @@ module.exports = {
     getAllServices,
     getAllServiceUsages,
     getServiceUsagesByBookingId,
-    createServiceUsage
+    createServiceUsage,
+    createService,
+    updateService,
+    deleteService
 }
 

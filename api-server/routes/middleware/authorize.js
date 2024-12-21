@@ -1,24 +1,61 @@
-let table_policies =  { // TODO: Tạo từ CSDL
-    // "/customer": {
-    //     "admin": {
-    //         "GET": true,
-    //     },
-    //     "manager": {
-    //         "GET": true,
-    //     },
-    //     "customer": {
-    //         "GET": true,
-    //     },
-    // },
+let table_policies = {
+    "/api/service": {
+        "admin": {
+            "GET": true,
+            "POST": true,
+            "PATCH": true,
+            "DELETE": true
+        },
+        "manager": {
+            "GET": true,
+            "POST": true,
+            "PATCH": true,
+            "DELETE": true
+        },
+        "customer": {
+            "GET": true,
+            "POST": false,
+            "PATCH": false,
+            "DELETE": false
+        }
+    },
+    "/api/service/:id": {
+        "admin": {
+            "GET": true,
+            "POST": true,
+            "PATCH": true,
+            "DELETE": true
+        },
+        "manager": {
+            "GET": true,
+            "POST": true,
+            "PATCH": true,
+            "DELETE": true
+        },
+        "customer": {
+            "GET": true,
+            "POST": false,
+            "PATCH": false,
+            "DELETE": false
+        }
+    }
 };
+
 
 module.exports.authorized = function(req, res, next) {
     const {method, path} = req.getRoute();
-    if (!table_policies[path][req.user.role][method]) {
-        res.send({
-            success: false, code: 401, message: "Unauthorized access - Insufficient priviledge"
+    
+    // Check if policy exists for this path and role
+    if (!table_policies[path] || 
+        !table_policies[path][req.user?.role] || 
+        !table_policies[path][req.user?.role][method]) {
+        
+        res.send(401, {
+            success: false, 
+            message: "Unauthorized access - Insufficient privilege"
         }); 
         return next(false);
     }
+    
     return next();
 }

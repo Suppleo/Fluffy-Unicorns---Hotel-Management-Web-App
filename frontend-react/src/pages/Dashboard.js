@@ -8,12 +8,13 @@ import {
     CardMedia, 
     Typography, 
     Chip,
-    Stack
+    Stack,
+    Button
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import BedIcon from '@mui/icons-material/Bed';
 import SquareFootIcon from '@mui/icons-material/SquareFoot';
 import PersonIcon from '@mui/icons-material/Person';
+import { useNavigate } from 'react-router-dom';
 
 const StyledCard = styled(Card)(({ theme }) => ({
     height: '100%',
@@ -26,6 +27,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
 }));
 
 const Dashboard = () => {
+    const navigate = useNavigate();
     const [rooms, setRooms] = useState([]);
 
     useEffect(() => {
@@ -39,16 +41,38 @@ const Dashboard = () => {
         fetchRooms();
     }, []);
 
+    const handleRoomClick = (roomId) => {
+        navigate(`/room/${roomId}`);
+    };
+
     return (
-        <Box sx={{ flexGrow: 1, py: 3 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
             <Container maxWidth="xl">
                 <Typography variant="h4" sx={{ mb: 4 }}>
                     Hotel Room Dashboard
                 </Typography>
+                <Box sx={{mb: 4}}>
+                    <Button 
+                        variant="contained" 
+                        onClick={() => navigate('/services')}
+                        sx={{ mr: 2 }}
+                    >
+                        Services
+                    </Button>
+                    <Button 
+                        variant="contained" 
+                        onClick={() => navigate('/bookings')}
+                    >
+                        View My Bookings
+                    </Button>
+                </Box>
                 <Grid container spacing={3}>
                     {rooms.map((room) => (
                         <Grid item xs={12} sm={6} md={4} key={room.RoomID}>
-                            <StyledCard>
+                            <StyledCard
+                                onClick={() => handleRoomClick(room.RoomID)}
+                                sx={{ cursor: 'pointer' }}
+                            >
                                 <CardMedia
                                     component="img"
                                     height="200"
