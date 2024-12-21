@@ -28,6 +28,31 @@ router.get('/api/service', authenticated, authorized, async (req, res) => {
     }
 });
 
+router.get('/api/service/:id', authenticated, authorized, async (req, res) => {
+    try {
+        const serviceId = parseInt(req.params.id);
+        const result = await Service.getServiceById(serviceId);
+        if (result.success) {
+            res.send(200, {
+                success: true,
+                message: "Service retrieved successfully",
+                data: result.data
+            });
+        } else {
+            res.send(404, {
+                success: false,
+                message: "Service not found"
+            });
+        }
+    } catch (error) {
+        res.send(500, {
+            success: false,
+            message: "Error retrieving service: " + error.message
+        });
+    }
+});
+
+
 router.post('/api/service', authenticated, authorized, async (req, res) => {
     try {
         const result = await Service.createService(req.body);

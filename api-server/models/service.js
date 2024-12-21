@@ -18,6 +18,26 @@ const getAllServices = async () => {
     }
 };
 
+const getServiceById = async (serviceId) => {
+    const knex = getKnex();
+    try {
+        const service = await knex('Service')
+            .select(
+                'ServiceID',
+                'ServiceName',
+                'ServiceType',
+                'Unit',
+                'UnitPrice',
+                'Description'
+            )
+            .where('ServiceID', serviceId)
+            .first();
+        return { success: true, data: service };
+    } catch (error) {
+        return { success: false, message: error.message };
+    }
+};
+
 const createService = async (serviceData) => {
     const knex = getKnex();
     try {
@@ -126,6 +146,7 @@ module.exports = {
     createServiceUsage,
     createService,
     updateService,
-    deleteService
+    deleteService,
+    getServiceById
 }
 
